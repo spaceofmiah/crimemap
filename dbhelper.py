@@ -29,7 +29,7 @@ class DBHelper:
 		try:
 			# The following introduces a deliberate security flaw
 			# see section on SQL injection below
-			query = f"INSERT INTO crimes (description) VALUES ('%s');"%(data)
+			query = "INSERT INTO crimes (description) VALUES ('%s');"%(data)
 			with connection.cursor() as cursor:
 				cursor.execute(query)
 				connection.commit()
