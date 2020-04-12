@@ -2,21 +2,87 @@
 <html>
 <head>
 	<title>Crime Map</title>
+	
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+	<script type="text/javascript">
+		let map;		// will represent google map
+		let marker; 	// will represent marker on the map
+		function initialize() {
+
+			// define one-time option needed to initialize map
+			// creation
+			let mapOptions = {
+				center: new google.maps.LatLng(-33.30578381949298, 26.52344268371582),
+				zoom: 15
+			};
+
+
+			// create new google map and render it on DOM
+			map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+
+			// listen to a click event on google map to add a 
+			// marker on the map
+			google.maps.event.addListener(map, 'click', function(event){
+				placeMarker(event.latLng)
+			});
+		}
+
+
+		/**
+			place marker on map
+		**/
+		function placeMarker(location) {
+			if (marker) {
+				marker.setPosition(location)
+			} 
+			else {
+				marker = new google.maps.Marker({
+					position: location,
+					map: map
+				});
+
+				document.getElementById('latitude').value = location.lat();
+				document.getElementById('longitude').value = location.lng();
+			}
+		}
+	</script>
+
+
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-	<h1>Crime Map</h1>
+<body onload="initialize()">
+	<h1>CrimeMap</h1>
+	<p>
+		A map of recent criminal activity in teh Grahamstown area.
+	</p>
+	<div id="map-canvas"></div>
 
-	<form action="add" method="POST">
-		<input type="text" name="userinput">
-		<input type="submit" name="submit">
-	</form>
+	<div id="newcrimeform">
+		<h2>Submit new crime</h2>
 
-	<a href="/clear">clear</a>
+		<form action="submitcrime" method="POST">
+			<label for="category">Category</label>
+			<select name="category" id="category">
+				<option value="mugging">Mugging</option>
+				<option value="breakin">Breakin</option>
+			</select>
 
-	<div>
-		{% for userinput in data %}
-			<p>{{ userinput }}</p>
-		{% endfor %}
+			<label for="date">Date</label>
+			<input type="date" name="date" id="date">
+
+			<label for="latitude">Latitude</label>
+			<input type="text" name="latitude" id="latitude">
+
+			<label for="longitude">Longitude</label>
+			<input type="text" name="longitude" id="longitude">
+
+			<label for="description">Description</label>
+			<textarea name="description" id="description" placeholder="A brief but detailed description of the crime"></textarea>
+
+			<input type="submit" name="Submit">
+		</form>
 	</div>
 </body>
 </html>
