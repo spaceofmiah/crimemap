@@ -14,7 +14,7 @@
 	<a href="clear">clear</a>
 
 	<div>
-		{% form userinput in data %}
+		{% for userinput in data %}
 			<p>{{ userinput }}</p>
 		{% endfor %}
 	</div>
