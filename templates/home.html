@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Crime Map</title>
+</head>
+<body>
+	<h1>Crime Map</h1>
+
+	<form action="add" method="POST">
+		<input type="text" name="userinput">
+		<input type="submit" name="submit">
+	</form>
+
+	<a href="clear">clear</a>
+
+	<div>
+		{% form userinput in data %}
+			<p>{{ userinput }}</p>
+		{% endfor %}
+	</div>
+</body>
+</html>
