@@ -16,10 +16,10 @@ def home():
 		data = DB.get_all_inputs()
 	except Exception as err:
 		print(err.message)
-	return render_template('index.html', data=data)
+	return render_template('home.html', data=data)
 
 
-@app.route('add', methods=['POST'])
+@app.route('/add/', methods=['POST'])
 def add():
 	try:
 		data = request.form.get('userinput')
@@ -29,7 +29,7 @@ def add():
 	return home()
 
 
-@app.route('/clear')
+@app.route('/clear/')
 def clear():
 	try:
 		DB.clear_all()
