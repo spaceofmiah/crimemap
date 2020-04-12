@@ -2,7 +2,14 @@ from flask import Flask
 from flask import request
 from flask import render_template
 
-from dbhelper import DBHelper
+import dbconfig
+
+
+if dbconfig.IN_DEVELOPMENT:
+	from mockdbhelper import MockDBHelper as DBHelper
+else:
+	from dbhelper import DBHelper
+
 
 
 app = Flask(__name__)
