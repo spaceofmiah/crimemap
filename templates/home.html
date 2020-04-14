@@ -13,7 +13,7 @@
 			// define one-time option needed to initialize map
 			// creation
 			let mapOptions = {
-				center: new google.maps.LatLng(-33.30578381949298, 26.52344268371582),
+				center: {lat: -33.30578381949298, lng: 26.5234426837158},
 				zoom: 15
 			};
 
@@ -55,7 +55,7 @@
 <body onload="initialize()">
 	<h1>CrimeMap</h1>
 	<p>
-		A map of recent criminal activity in teh Grahamstown area.
+		A map of recent criminal activity in the Grahamstown area.
 	</p>
 	<div id="map-canvas"></div>
 

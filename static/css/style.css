@@ -24,7 +24,7 @@ input[type="submit"]:hover {
 	background: steelblue;
 }
 
-#map-canvass {
+#map-canvas {
 	width: 70%;
 	height: 500px;
 	float: left;
