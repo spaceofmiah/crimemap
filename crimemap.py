@@ -1,3 +1,4 @@
+import json
 from flask import Flask
 from flask import request
 from flask import render_template
@@ -19,11 +20,9 @@ DB = DBHelper()
 
 @app.route('/')
 def home():
-	try:
-		data = DB.get_all_inputs()
-	except Exception as err:
-		print(err.message)
-	return render_template('home.html', data=data)
+	crimes = DB.get_all_crimes()
+	crimes = json.dumps(crimes)
+	return render_template('home.html', crimes=crimes)
 
 
 @app.route('/add', methods=['POST'])
