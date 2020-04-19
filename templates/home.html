@@ -70,6 +70,13 @@
 </head>
 <body onload="initialize()">
 	<h1>CrimeMap</h1>
+
+	{% if error_message %}
+		<div id="error">
+			<p>{{ error_message }}</p>
+		</div>
+	{% endif %}
+
 	<p>
 		A map of recent criminal activity in the Grahamstown area.
 	</p>

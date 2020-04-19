@@ -1,7 +1,12 @@
 import json
+import datetime
+
 from flask import Flask
 from flask import request
 from flask import render_template
+
+# ExLib
+import dateparser
 
 import dbconfig
 
@@ -18,22 +23,22 @@ DB = DBHelper()
 categories = ['mugging', 'break-in']
 
 
+def format_date(userdate):
+	date = dateparser.parse(userdate)
+	try:
+		return datetime.datetime.strftime(date, "%Y-%m-%d")
+	except TypeError:
+		return None
+
 
 @app.route('/')
-def home():
+def home( error_message=None ):
 	crimes = DB.get_all_crimes()
 	crimes = json.dumps(crimes)
-	return render_template('home.html', crimes=crimes, categories=categories)
-
-
-@app.route('/add', methods=['POST'])
-def add():
-	try:
-		data = request.form.get('userinput')
-		DB.add_input(data)
-	except Exception as err:
-		print(err.message)
-	return home()
+	return render_template(
+		'home.html', 
+		crimes=crimes, 
+		categories=categories, error_message=error_message)
 
 
 @app.route('/clear')
@@ -51,7 +56,10 @@ def submitcrime():
 	if category not in categories:
 		return home()
 
-	date = request.form.get("date")
+	date = format_date(request.form.get("date"))
+	if not date:
+		return home("Invalid date. Please use yyyy-mm-dd format")
+
 	try:
 		latitude = float(request.form.get("latitude"))
 		longitude = float(request.form.get("longitude"))
