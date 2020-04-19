@@ -46,14 +46,6 @@ def home( error_message=None ):
 		categories=categories, error_message=error_message)
 
 
-@app.route('/clear')
-def clear():
-	try:
-		DB.clear_all()
-	except Exception as err:
-		print(err)
-	return home()
-
 @app.route("/submitcrime", methods=["POST"])
 def submitcrime():
 	category = request.form.get("category")
@@ -74,7 +66,7 @@ def submitcrime():
 	
 	description = request.form.get("description")
 	description = sanitize_string(description)
-	
+
 	DB.add_crime(category, date, latitude, longitude, description)
 	return home()
 
