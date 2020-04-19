@@ -1,4 +1,5 @@
 import json
+import string
 import datetime
 
 from flask import Flask
@@ -29,6 +30,10 @@ def format_date(userdate):
 		return datetime.datetime.strftime(date, "%Y-%m-%d")
 	except TypeError:
 		return None
+
+def sanitize_string(userinput):
+	whitelist = string.letters + string.digits + " !?$.,;:-()&"
+	return filter(lambda x: x in whitelist, userinput)
 
 
 @app.route('/')
@@ -68,6 +73,8 @@ def submitcrime():
 		return home()
 	
 	description = request.form.get("description")
+	description = sanitize_string(description)
+	
 	DB.add_crime(category, date, latitude, longitude, description)
 	return home()
 
